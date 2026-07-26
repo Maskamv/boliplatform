@@ -26,7 +26,8 @@ dashboard) rather than calling a real provider.
 
 ```bash
 npm install
-npm run prisma:migrate --workspace=backend   # creates dev.db and applies the schema
+npm run build --workspace=packages/shared    # compiles shared types/enums — needed once, and after any edit to packages/shared
+npx prisma db push --schema=backend/prisma/schema.prisma   # syncs the schema to your Postgres database
 npm run prisma:seed --workspace=backend      # seeds a demo business, staff, guests, campaigns, platform admin
 npm run dev                                  # starts backend (:4000), guest-app (:5173), merchant-dashboard (:5174), admin-portal (:5175)
 ```
@@ -34,8 +35,9 @@ npm run dev                                  # starts backend (:4000), guest-app
 The seed script prints everything you need to log in and try it out — staff credentials, guest
 phone numbers, the platform admin login, and ready-to-use QR scan URLs — right after it runs.
 
-Copy `backend/.env.example` to `backend/.env` first if you haven't (the migrate command needs
-`DATABASE_URL` set).
+Copy `backend/.env.example` to `backend/.env` first if you haven't, and point `DATABASE_URL` at a
+real Postgres database (a local install, or the same free instance you deploy to on Render) — the
+project moved off SQLite so it could deploy to Render's free Postgres tier.
 
 ## Trying it out
 
