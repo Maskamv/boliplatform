@@ -1,0 +1,325 @@
+// Boli platform database schema.
+//
+// NOTE: enum-like columns below (type, status, role, source, channel,
+// purpose, language...) are plain Strings rather than native Prisma enums —
+// this schema originally targeted SQLite (no enum support there) and this
+// project kept the convention after migrating to Postgres. Valid values are
+// the single source of truth in packages/shared/src/enums.ts — application
+// code validates against those zod schemas before writing, Prisma just
+// stores the resulting string.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Merchant {
+  id              String   @id @default(cuid())
+  businessName    String
+  slug            String   @unique
+  contactEmail    String
+  contactPhone    String?
+  address         String?
+  defaultLanguage String   @default("en")
+  currency        String   @default("MVR")
+  boliEarnRate    Int      @default(10)
+  // Platform-admin suspend switch — checked at staff login, guest OTP
+  // request, and per-request in authStaff/authGuest so revoking access
+  // takes effect immediately, not just for new sessions.
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  outlets          Outlet[]
+  staffUsers       StaffUser[]
+  guests           Guest[]
+  rewards          Reward[]
+  membershipTiers  MembershipTier[]
+  campaigns        Campaign[]
+  messageLogs      MessageLog[]
+  otpCodes         OtpCode[]
+  referralSettings ReferralSettings?
+  featureFlags     MerchantFeatureFlags?
+}
+
+/// A platform operator account — NOT tied to any merchantId, unlike StaffUser.
+/// Manages merchant onboarding, suspension, and feature entitlements platform-wide.
+model PlatformAdmin {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+}
+
+/// Per-merchant feature entitlements, set by a platform admin. Missing row =
+/// all-true default (see lib/features.ts) so existing merchants aren't
+/// retroactively locked out by this table's addition.
+model MerchantFeatureFlags {
+  id                     String  @id @default(cuid())
+  merchantId             String  @unique
+  crmEnabled             Boolean @default(true)
+  loyaltyEnabled         Boolean @default(true)
+  whatsappMarketingEnabled Boolean @default(true)
+  campaignsEnabled       Boolean @default(true)
+  qrCodesEnabled         Boolean @default(true)
+  reviewsEnabled         Boolean @default(true)
+  referralsEnabled       Boolean @default(true)
+  membershipsEnabled     Boolean @default(true)
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+}
+
+model Outlet {
+  id          String   @id @default(cuid())
+  merchantId  String
+  name        String
+  slug        String
+  address     String?
+  phone       String?
+  qrCodeToken String   @unique @default(cuid())
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  visits      Visit[]
+  reviews     Review[]
+  redemptions Redemption[]
+
+  @@unique([merchantId, slug])
+}
+
+model StaffUser {
+  id           String   @id @default(cuid())
+  merchantId   String
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("STAFF")
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+}
+
+model Guest {
+  id                String    @id @default(cuid())
+  merchantId        String
+  phone             String
+  name              String?
+  email             String?
+  avatarUrl         String?
+  dateOfBirth       DateTime?
+  language          String    @default("en")
+  boliBalance       Int       @default(0)
+  membershipTierId  String?
+  referredByGuestId String?
+  totalVisits       Int       @default(0)
+  lastVisitAt       DateTime?
+  createdAt         DateTime  @default(now())
+
+  merchant       Merchant        @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  membershipTier MembershipTier? @relation(fields: [membershipTierId], references: [id])
+  referredBy     Guest?          @relation("GuestReferrals", fields: [referredByGuestId], references: [id])
+  referredGuests Guest[]         @relation("GuestReferrals")
+
+  visits           Visit[]
+  transactions     BoliTransaction[]
+  redemptions      Redemption[]
+  reviews          Review[]
+  referralCode     ReferralCode?
+  referralsMade    Referral[]        @relation("ReferralsMade")
+  referralReceived Referral?         @relation("ReferralReceived")
+  messageLogs      MessageLog[]
+
+  @@unique([merchantId, phone])
+}
+
+model Visit {
+  id          String   @id @default(cuid())
+  guestId     String
+  outletId    String
+  checkedInAt DateTime @default(now())
+  source      String   @default("QR_SCAN")
+  amountSpent Int?
+  boliEarned  Int      @default(0)
+  notes       String?
+
+  guest  Guest  @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  outlet Outlet @relation(fields: [outletId], references: [id], onDelete: Cascade)
+
+  transactions BoliTransaction[]
+  reviews      Review[]
+}
+
+model BoliTransaction {
+  id                  String   @id @default(cuid())
+  guestId             String
+  type                String
+  amount              Int
+  balanceAfter        Int
+  relatedVisitId      String?
+  relatedRedemptionId String?
+  relatedReferralId   String?
+  note                String?
+  createdAt           DateTime @default(now())
+
+  guest      Guest       @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  visit      Visit?      @relation(fields: [relatedVisitId], references: [id])
+  redemption Redemption? @relation(fields: [relatedRedemptionId], references: [id])
+}
+
+model Reward {
+  id          String   @id @default(cuid())
+  merchantId  String
+  name        String
+  description String?
+  boliCost    Int
+  isActive    Boolean  @default(true)
+  stock       Int?
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+
+  merchant    Merchant     @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  redemptions Redemption[]
+}
+
+model Redemption {
+  id          String    @id @default(cuid())
+  guestId     String
+  rewardId    String
+  outletId    String?
+  boliSpent   Int
+  status      String    @default("PENDING")
+  redeemedAt  DateTime  @default(now())
+  fulfilledAt DateTime?
+
+  guest        Guest             @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  reward       Reward            @relation(fields: [rewardId], references: [id], onDelete: Cascade)
+  outlet       Outlet?           @relation(fields: [outletId], references: [id])
+  transactions BoliTransaction[]
+}
+
+model MembershipTier {
+  id               String  @id @default(cuid())
+  merchantId       String
+  name             String
+  minVisits        Int     @default(0)
+  minBoliEarned    Int?
+  minLifetimeSpend Int?
+  perks            String?
+  sortOrder        Int     @default(0)
+  badgeColor       String?
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  guests   Guest[]
+}
+
+model Campaign {
+  id              String    @id @default(cuid())
+  merchantId      String
+  name            String
+  triggerType     String
+  status          String    @default("DRAFT")
+  channel         String    @default("WHATSAPP")
+  messageTemplate String
+  triggerConfig   String    @default("{}")
+  lastRunAt       DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  merchant    Merchant     @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  messageLogs MessageLog[]
+}
+
+model MessageLog {
+  id               String   @id @default(cuid())
+  merchantId       String
+  guestId          String?
+  campaignId       String?
+  relatedVisitId   String?
+  channel          String
+  purpose          String
+  toPhone          String
+  body             String
+  status           String
+  providerResponse String?
+  createdAt        DateTime @default(now())
+
+  merchant Merchant  @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+  guest    Guest?    @relation(fields: [guestId], references: [id])
+  campaign Campaign? @relation(fields: [campaignId], references: [id])
+}
+
+model Review {
+  id            String   @id @default(cuid())
+  guestId       String
+  outletId      String
+  visitId       String?
+  rating        Int
+  comment       String?
+  isPublic      Boolean  @default(true)
+  staffResponse String?
+  createdAt     DateTime @default(now())
+
+  guest  Guest  @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  outlet Outlet @relation(fields: [outletId], references: [id], onDelete: Cascade)
+  visit  Visit? @relation(fields: [visitId], references: [id])
+}
+
+model ReferralCode {
+  id         String   @id @default(cuid())
+  guestId    String   @unique
+  merchantId String
+  code       String   @unique
+  createdAt  DateTime @default(now())
+
+  guest Guest @relation(fields: [guestId], references: [id], onDelete: Cascade)
+}
+
+model Referral {
+  id                 String    @id @default(cuid())
+  referralCodeId     String
+  referrerGuestId    String
+  refereeGuestId     String    @unique
+  status             String    @default("PENDING")
+  referrerRewardBoli Int?
+  refereeRewardBoli  Int?
+  completedAt        DateTime?
+  createdAt          DateTime  @default(now())
+
+  referrerGuest Guest @relation("ReferralsMade", fields: [referrerGuestId], references: [id], onDelete: Cascade)
+  refereeGuest  Guest @relation("ReferralReceived", fields: [refereeGuestId], references: [id], onDelete: Cascade)
+}
+
+model ReferralSettings {
+  id                String  @id @default(cuid())
+  merchantId        String  @unique
+  referrerBonusBoli Int     @default(50)
+  refereeBonusBoli  Int     @default(25)
+  isActive          Boolean @default(true)
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+}
+
+model OtpCode {
+  id         String    @id @default(cuid())
+  phone      String
+  merchantId String
+  code       String
+  purpose    String    @default("GUEST_LOGIN")
+  expiresAt  DateTime
+  consumedAt DateTime?
+  attempts   Int       @default(0)
+  createdAt  DateTime  @default(now())
+
+  merchant Merchant @relation(fields: [merchantId], references: [id], onDelete: Cascade)
+
+  @@index([phone, merchantId])
+}

@@ -1,0 +1,136 @@
+{
+  "app": {
+    "name": "Boli"
+  },
+  "nav": {
+    "home": "Home",
+    "rewards": "Rewards",
+    "membership": "Membership",
+    "history": "History",
+    "profile": "Profile"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Try again",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "back": "Back",
+    "boli": "Boli",
+    "visits": "visits"
+  },
+  "scan": {
+    "title": "Welcome to {{merchantName}}",
+    "subtitle": "Scan confirmed. Log in to collect your Boli for this visit.",
+    "invalidCode": "This QR code isn't valid — ask staff for a fresh one.",
+    "continueWithPhone": "Continue with phone number"
+  },
+  "join": {
+    "title": "You're invited to {{merchantName}}",
+    "subtitle": "Sign up to start earning Boli on every visit.",
+    "getStarted": "Get Started"
+  },
+  "scanQr": {
+    "title": "Scan to Check In",
+    "subtitle": "Point your camera at the QR code at your table or the counter.",
+    "requesting": "Requesting camera access...",
+    "permissionDenied": "Camera access denied",
+    "permissionDeniedHint": "Enable camera access for this site in your browser settings, then try again.",
+    "unsupported": "Camera scanning isn't supported on this browser.",
+    "notBoliCode": "That doesn't look like a Boli QR code — try again."
+  },
+  "otpRequest": {
+    "title": "Enter your phone number",
+    "subtitle": "We'll send you a one-time code to log in.",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "+960 7XXXXXX",
+    "sendCode": "Send code",
+    "sending": "Sending..."
+  },
+  "otpVerify": {
+    "title": "Enter the code",
+    "subtitle": "We sent a 6-digit code to {{phone}}.",
+    "codeLabel": "Verification code",
+    "verify": "Verify",
+    "verifying": "Verifying...",
+    "resend": "Resend code",
+    "devHint": "Development mode — code auto-filled below."
+  },
+  "home": {
+    "greeting": "Hi {{name}}",
+    "balanceLabel": "Your Boli balance",
+    "aboutBoli": "Boli are named after the cowrie shells once used as currency across the Maldives — collect them on every visit, redeem them for rewards.",
+    "scanToCheckIn": "Scan to Check In",
+    "viewRewards": "View rewards",
+    "recentActivity": "Recent activity",
+    "noActivity": "No activity yet — your first visit will show up here."
+  },
+  "rewards": {
+    "title": "Rewards",
+    "subtitle": "Redeem your Boli for something nice.",
+    "cost": "{{cost}} Boli",
+    "redeem": "Redeem",
+    "redeeming": "Redeeming...",
+    "insufficientBalance": "Not enough Boli yet",
+    "outOfStock": "Out of stock",
+    "redeemSuccess": "Redeemed! Show this to staff to collect it.",
+    "empty": "No rewards available right now — check back soon."
+  },
+  "membership": {
+    "title": "Membership",
+    "currentTier": "Current tier",
+    "noTier": "Not yet tiered",
+    "nextTier": "{{visits}} more visit(s) to {{tierName}}",
+    "maxTier": "You've reached the top tier",
+    "perks": "Perks",
+    "allTiers": "All tiers"
+  },
+  "history": {
+    "title": "History",
+    "visitsTab": "Visits",
+    "transactionsTab": "Boli activity",
+    "redemptionsTab": "Redemptions",
+    "noVisits": "No visits yet",
+    "noTransactions": "No Boli activity yet",
+    "noRedemptions": "No redemptions yet",
+    "earned": "+{{amount}} Boli",
+    "spent": "{{amount}} Boli"
+  },
+  "review": {
+    "title": "How was your visit?",
+    "ratingLabel": "Rating",
+    "commentLabel": "Comments (optional)",
+    "commentPlaceholder": "Tell us more...",
+    "submit": "Submit review",
+    "submitting": "Submitting...",
+    "thankYou": "Thanks for the feedback!",
+    "alreadyReviewed": "You've already reviewed this visit"
+  },
+  "referral": {
+    "title": "Invite friends",
+    "subtitle": "Share your code — you both earn Boli when they visit.",
+    "yourCode": "Your referral code",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "haveCode": "Have a friend's code?",
+    "codePlaceholder": "Enter code",
+    "redeem": "Redeem",
+    "redeemSuccess": "Code applied! Bonus Boli lands after your first visit.",
+    "onlyBeforeFirstVisit": "Referral codes can only be redeemed before your first visit."
+  },
+  "profile": {
+    "title": "Profile",
+    "logout": "Log out",
+    "memberSince": "Member since {{date}}",
+    "editProfile": "Edit profile",
+    "name": "Name",
+    "email": "Email",
+    "noName": "Add your name",
+    "noEmail": "Add your email",
+    "changePhoto": "Change photo",
+    "photoError": "Couldn't process that photo — try a different one.",
+    "phone": "Phone number",
+    "changePhone": "Change"
+  }
+}

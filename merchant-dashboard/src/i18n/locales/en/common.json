@@ -1,0 +1,171 @@
+{
+  "app": {
+    "name": "Boli for Business"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "guests": "Guests",
+    "outlets": "Outlets",
+    "rewards": "Rewards",
+    "memberships": "Memberships",
+    "campaigns": "Campaigns",
+    "messages": "Messages",
+    "reviews": "Reviews",
+    "referrals": "Referrals",
+    "staff": "Staff",
+    "settings": "Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "create": "Create",
+    "creating": "Creating...",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions",
+    "active": "Active",
+    "inactive": "Inactive",
+    "status": "Status",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "search": "Search",
+    "confirmDelete": "Are you sure? This can't be undone.",
+    "noResults": "Nothing here yet",
+    "close": "Close",
+    "logout": "Log out",
+    "copy": "Copy",
+    "copied": "Copied!"
+  },
+  "login": {
+    "title": "Log in to Boli",
+    "subtitle": "Manage your loyalty program",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Log in",
+    "loggingIn": "Logging in..."
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalGuests": "Total guests",
+    "visits30d": "Visits (30d)",
+    "boliIssued30d": "Boli issued (30d)",
+    "boliRedeemed30d": "Boli redeemed (30d)",
+    "activeCampaigns": "Active campaigns",
+    "pendingRedemptions": "Pending redemptions",
+    "visitsChart": "Visits, last 14 days"
+  },
+  "guests": {
+    "title": "Guests",
+    "searchPlaceholder": "Search by name, phone, or email",
+    "visits": "Visits",
+    "boliBalance": "Boli balance",
+    "lastVisit": "Last visit",
+    "never": "Never",
+    "tabs": { "visits": "Visits", "transactions": "Boli activity", "redemptions": "Redemptions", "reviews": "Reviews" },
+    "editProfile": "Edit guest",
+    "dateOfBirth": "Date of birth",
+    "inviteCustomer": "Invite customer",
+    "sendInvite": "Send invite",
+    "sendingInvite": "Sending...",
+    "inviteSent": "Invite sent",
+    "inviteSentHint": "WhatsApp/SMS is mocked in this environment — here's the exact link that was \"sent\", so you can test it yourself."
+  },
+  "outlets": {
+    "title": "Outlets",
+    "addOutlet": "Add outlet",
+    "address": "Address",
+    "qrCode": "QR code",
+    "qrCodeHint": "Guests scan this to check in and earn Boli.",
+    "downloadQr": "Download QR",
+    "regenerateQr": "Regenerate QR",
+    "regenerateWarning": "Old printed QR codes will stop working.",
+    "scanUrl": "Scan URL"
+  },
+  "rewards": {
+    "title": "Rewards",
+    "addReward": "Add reward",
+    "boliCost": "Boli cost",
+    "stock": "Stock",
+    "unlimited": "Unlimited",
+    "description": "Description",
+    "form": { "titleCreate": "New reward", "titleEdit": "Edit reward" },
+    "redemptions": "Redemptions",
+    "redemptionsHint": "Guests who've redeemed a reward — mark it fulfilled once you've handed it over.",
+    "fulfill": "Mark fulfilled",
+    "fulfilling": "Saving...",
+    "redemptionStatus": { "PENDING": "Pending", "FULFILLED": "Fulfilled", "CANCELLED": "Cancelled" }
+  },
+  "memberships": {
+    "title": "Membership tiers",
+    "addTier": "Add tier",
+    "minVisits": "Minimum visits",
+    "perks": "Perks",
+    "form": { "titleCreate": "New tier", "titleEdit": "Edit tier" }
+  },
+  "campaigns": {
+    "title": "Campaigns",
+    "addCampaign": "Add campaign",
+    "trigger": "Trigger",
+    "channel": "Channel",
+    "messageTemplate": "Message template",
+    "templateHint": "Use {{guestName}} to personalize.",
+    "lastRun": "Last run",
+    "neverRun": "Never run",
+    "runDue": "Run due campaigns now",
+    "running": "Running...",
+    "runResult": "Evaluated {{evaluated}} campaign(s), sent {{sent}} message(s).",
+    "form": { "titleCreate": "New campaign", "titleEdit": "Edit campaign" },
+    "triggers": {
+      "WELCOME": "Welcome (first visit)",
+      "BIRTHDAY": "Birthday",
+      "WIN_BACK": "Win-back (inactive guests)",
+      "POST_VISIT": "Post-visit follow-up",
+      "MANUAL": "Manual"
+    }
+  },
+  "messages": {
+    "title": "Message log",
+    "subtitle": "Every WhatsApp/SMS send is mocked in this environment — shown here instead of actually delivered.",
+    "to": "To",
+    "purpose": "Purpose",
+    "sentAt": "Sent"
+  },
+  "reviews": {
+    "title": "Reviews",
+    "rating": "Rating",
+    "comment": "Comment",
+    "respond": "Respond",
+    "responding": "Sending...",
+    "yourResponse": "Your response",
+    "respondPlaceholder": "Thank the guest or address their feedback..."
+  },
+  "referrals": {
+    "title": "Referrals",
+    "settings": "Referral settings",
+    "referrerBonus": "Referrer bonus (Boli)",
+    "refereeBonus": "New guest bonus (Boli)",
+    "referrer": "Referrer",
+    "referee": "New guest",
+    "completed": "Completed",
+    "pending": "Pending"
+  },
+  "staff": {
+    "title": "Staff",
+    "addStaff": "Add staff",
+    "role": "Role",
+    "roles": { "OWNER": "Owner", "MANAGER": "Manager", "STAFF": "Staff" },
+    "form": { "titleCreate": "New staff account", "password": "Temporary password" }
+  },
+  "settings": {
+    "title": "Settings",
+    "businessName": "Business name",
+    "contactEmail": "Contact email",
+    "contactPhone": "Contact phone",
+    "address": "Address",
+    "boliEarnRate": "Boli earned per visit"
+  }
+}
