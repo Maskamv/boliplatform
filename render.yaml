@@ -59,6 +59,10 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://boli-backend.onrender.com
+      # This build serves one business (Thundi Café) — falls back to this
+      # merchant so opening the app cold (no prior scan) still works.
+      - key: VITE_DEFAULT_MERCHANT_ID
+        value: cms20o6z60000nhzffzj3kblg
 
   - name: boli-merchant-dashboard
     type: web

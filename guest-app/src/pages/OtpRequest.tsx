@@ -30,16 +30,8 @@ export default function OtpRequest() {
 
   if (!merchantId) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
-        <h1 className="text-xl font-bold text-primary">{t("noMerchant.title")}</h1>
-        <p className="text-mutedForeground">{t("noMerchant.subtitle")}</p>
-        <button
-          type="button"
-          onClick={() => navigate(PATHS.scanQr)}
-          className="mt-2 rounded-full bg-accent px-6 py-3 font-semibold text-white transition-colors hover:bg-accentDark"
-        >
-          {t("noMerchant.openScanner")}
-        </button>
+      <div className="flex min-h-screen items-center justify-center px-6 text-center text-mutedForeground">
+        {t("scan.invalidCode")}
       </div>
     );
   }
