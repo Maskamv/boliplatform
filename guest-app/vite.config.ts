@@ -25,9 +25,6 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // Skip minifying the generated service worker — it's tiny, so
-        // there's nothing worth the extra build-tool dependency weight.
-        minify: false,
         // Never cache API responses/navigation — this is a live loyalty
         // balance/history app, not offline-first content.
         navigateFallbackDenylist: [/^\/api\//],
