@@ -21,7 +21,7 @@ services:
     type: web
     runtime: node
     plan: free
-    buildCommand: npm install && npx prisma generate --schema=backend/prisma/schema.prisma && npm run build --workspace=backend
+    buildCommand: npm install --include=dev && npx prisma generate --schema=backend/prisma/schema.prisma && npm run build --workspace=backend
     startCommand: npx prisma db push --schema=backend/prisma/schema.prisma --accept-data-loss && npx tsx backend/prisma/seed.ts && node backend/dist/index.js
     envVars:
       - key: DATABASE_URL
