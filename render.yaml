@@ -50,7 +50,6 @@ services:
   - name: boli-guest-app
     type: web
     runtime: static
-    plan: free
     buildCommand: npm install && npm run build --workspace=guest-app
     staticPublishPath: guest-app/dist
     envVars:
@@ -60,7 +59,6 @@ services:
   - name: boli-merchant-dashboard
     type: web
     runtime: static
-    plan: free
     buildCommand: npm install && npm run build --workspace=merchant-dashboard
     staticPublishPath: merchant-dashboard/dist
     envVars:
@@ -70,7 +68,6 @@ services:
   - name: boli-admin-portal
     type: web
     runtime: static
-    plan: free
     buildCommand: npm install && npm run build --workspace=admin-portal
     staticPublishPath: admin-portal/dist
     envVars:
