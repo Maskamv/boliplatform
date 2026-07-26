@@ -29,14 +29,10 @@ export default function App() {
         <Route path={PATHS.login} element={<OtpRequest />} />
         <Route path={PATHS.loginVerify} element={<OtpVerify />} />
 
-        <Route
-          path={PATHS.scanQr}
-          element={
-            <ProtectedRoute>
-              <ScanQr />
-            </ProtectedRoute>
-          }
-        />
+        {/* Not auth-gated: it's the recovery path for a guest who opened the
+            app with no merchant context yet (e.g. from a home-screen icon
+            saved before ever scanning), so it must work before login too. */}
+        <Route path={PATHS.scanQr} element={<ScanQr />} />
         <Route
           path={PATHS.home}
           element={

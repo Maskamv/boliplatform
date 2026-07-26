@@ -26,6 +26,11 @@
     "invalidCode": "This QR code isn't valid — ask staff for a fresh one.",
     "continueWithPhone": "Continue with phone number"
   },
+  "noMerchant": {
+    "title": "Scan to get started",
+    "subtitle": "Scan the QR code at your table or the counter to check in and start earning Boli.",
+    "openScanner": "Scan QR code"
+  },
   "join": {
     "title": "You're invited to {{merchantName}}",
     "subtitle": "Sign up to start earning Boli on every visit.",
