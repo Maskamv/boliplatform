@@ -68,6 +68,29 @@ WhatsApp and SMS are behind small interfaces at `backend/src/providers/whatsapp/
 etc.), point `WHATSAPP_PROVIDER` / `SMS_PROVIDER` at it in `backend/.env`, and nothing else in the
 codebase needs to change.
 
+## Deploying (for a feedback demo)
+
+`render.yaml` at the repo root is a [Render Blueprint](https://render.com/docs/blueprint-spec) that deploys
+everything — the backend API, all three frontends, and a free Postgres database — in one go:
+
+1. Push this repo to GitHub.
+2. On [render.com](https://render.com) (free, no card required), click **New +** → **Blueprint** and connect the repo.
+3. Render provisions `boli-db` (Postgres) plus the four `boli-*` web services and wires them together automatically —
+   JWT secrets are randomly generated, `DATABASE_URL` is wired from the database, and each frontend's `VITE_API_URL`
+   points at the backend's predictable `https://boli-backend.onrender.com` URL.
+4. First boot runs `prisma db push` (syncs the schema straight from `schema.prisma`, no migration files needed) and
+   then re-runs the seed script, which no-ops if data already exists — so it's safe on every redeploy.
+
+Notes:
+
+- Render's free Postgres expires 30 days after creation — fine for a demo, not for anything longer-lived.
+- Free web services spin down after 15 minutes idle and take ~1 minute to wake back up on the next request.
+- If Render has to rename a service to keep the name unique (adds a `-1` suffix, etc.), update the hardcoded URLs in
+  `render.yaml`'s `envVars` to match before or after deploying.
+- This uses `prisma db push` instead of tracked migrations, since generating a real Postgres migration requires a live
+  Postgres connection this environment doesn't have. Once you have a permanent Postgres (for local dev or otherwise),
+  switch back to `prisma migrate dev` to get proper migration history.
+
 ## What's intentionally not built
 
 - Billing/subscriptions (never requested; the marketing site has no pricing flow either).

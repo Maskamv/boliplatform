@@ -45,6 +45,12 @@ async function signupGuest(merchantId: string, phone: string, name: string, opts
 }
 
 async function main() {
+  const existing = await prisma.merchant.findFirst({ select: { id: true } });
+  if (existing) {
+    console.log("Seed data already present — skipping (safe to re-run on every deploy).");
+    return;
+  }
+
   console.log("Seeding Boli demo data...\n");
 
   // --- Merchant ---
