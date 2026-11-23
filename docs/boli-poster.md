@@ -3,13 +3,14 @@
 Status: idea / design. Nothing here is built yet except the dashboard **Share kit**
 (`merchant-dashboard/src/pages/ShareKit/`), which this would extend.
 
+**Current scope: Viber only.** Facebook, Instagram, TikTok and YouTube are out of
+scope for now; notes on them are kept at the end for later.
+
 ## The idea
 
 One installable program for Windows and Mac. Inside it runs a small Linux system
 (a container) with **Viber Desktop for Linux** installed and logged in. The merchant
 writes a post once, picks groups, and a robot posts it into each Viber group.
-Facebook, Instagram, TikTok and YouTube are posted through their official APIs from
-the Boli backend, so they need no container.
 
 ```
 ┌──────────── Boli Poster (Windows / Mac) ─────────────┐
@@ -18,10 +19,10 @@ the Boli backend, so they need no container.
 │                               │  + posting robot     │
 └───────────────┬───────────────┴──────────────────────┘
                 │ fetches jobs / reports results
-        ┌───────▼────────┐        ┌─────────────────────────┐
-        │  Boli backend  │───────►│ Meta / TikTok / YouTube │
-        │  (post queue)  │  APIs  │ official posting APIs   │
-        └────────────────┘        └─────────────────────────┘
+        ┌───────▼────────┐
+        │  Boli backend  │
+        │  (post queue)  │
+        └────────────────┘
 ```
 
 ## Parts
@@ -66,23 +67,12 @@ Guard rails (built in, not optional):
   update moved things).
 
 ### 4. Boli backend
-- New `ScheduledPost` and `PostTarget` tables: post content, channel, target
-  (Viber group name / page id), schedule time, status, result.
-- Viber targets are queued for the desktop app; other channels are posted by the
-  backend itself:
-
-| Channel | How it posts | Setup needed |
-|---|---|---|
-| Viber groups | Robot in the container | Phone QR scan once |
-| Viber Channel | Official Viber Channels post API (no robot) | Channel token |
-| Facebook Page | Meta Graph API | Meta app review + business verification |
-| Instagram | Meta Graph API (Business/Creator account) | Same Meta app |
-| TikTok | Content Posting API | TikTok audit (posts are private until approved) |
-| YouTube | YouTube Data API upload | Google OAuth verification; daily upload quota |
-
+- New `ScheduledPost` and `PostTarget` tables: post content (text + image), target
+  Viber group name, schedule time, status, result.
+- The desktop app fetches due jobs, runs them, and reports each group's result.
 - Results go into the existing message log, and each post's link carries
-  `?src=<channel>` (already done by the Share kit) so sign-ups and visits can be
-  counted per channel.
+  `?src=viber` (already done by the Share kit) so sign-ups and visits from Viber can
+  be counted.
 
 ## Risks to accept before building
 - Automating a personal Viber account is against Viber's terms. The risk is the
@@ -95,7 +85,20 @@ Guard rails (built in, not optional):
 ## Build order
 1. Container image (Viber + Xvfb + noVNC) running on one Windows PC; manual login.
 2. Robot in confirm mode for one group, with the chat-name check.
-3. Electron app wrapping the container screen and the post editor.
-4. Backend post queue, job fetching and result reporting.
-5. Meta (Facebook + Instagram) API posting.
-6. Auto mode, TikTok, YouTube.
+3. Electron app wrapping the container screen and the post editor; Windows
+   installer, first-launch Linux setup, auto-update.
+4. Backend post queue, scheduling from the dashboard, job fetching and result
+   reporting.
+5. Auto mode (opt-in), multi-group runs with pauses and daily cap.
+
+## Later (out of scope for now)
+Other channels would be posted from the Boli backend through official APIs, with no
+container:
+
+| Channel | How it posts | Setup needed |
+|---|---|---|
+| Viber Channel | Official Viber Channels post API (no robot) | Channel token |
+| Facebook Page | Meta Graph API | Meta app review + business verification |
+| Instagram | Meta Graph API (Business/Creator account) | Same Meta app |
+| TikTok | Content Posting API | TikTok audit (posts are private until approved) |
+| YouTube | YouTube Data API upload | Google OAuth verification; daily upload quota |
