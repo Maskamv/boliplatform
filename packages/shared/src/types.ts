@@ -223,3 +223,19 @@ export interface ApiErrorBody {
   error: string;
   details?: unknown;
 }
+
+/** Channels a merchant can share a post to from the dashboard's share kit. */
+export type ShareChannel = "VIBER" | "WHATSAPP" | "FACEBOOK" | "INSTAGRAM" | "TIKTOK";
+
+export interface ShareKitLinkDto {
+  channel: ShareChannel;
+  /** Guest-app join link tagged with ?src=<channel> so later visits can be attributed to it. */
+  url: string;
+  /** PNG data URL of a QR code encoding `url`. */
+  qrDataUrl: string;
+}
+
+export interface ShareKitDto {
+  businessName: string;
+  links: ShareKitLinkDto[];
+}

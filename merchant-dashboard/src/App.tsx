@@ -16,6 +16,7 @@ import TierList from "./pages/Memberships/TierList";
 import TierForm from "./pages/Memberships/TierForm";
 import CampaignList from "./pages/Campaigns/CampaignList";
 import CampaignForm from "./pages/Campaigns/CampaignForm";
+import ShareKit from "./pages/ShareKit/ShareKit";
 import MessageLog from "./pages/Messages/MessageLog";
 import ReviewList from "./pages/Reviews/ReviewList";
 import ReferralSettingsPage from "./pages/Referrals/ReferralSettings";
@@ -61,6 +62,7 @@ export default function App() {
       <Route path={PATHS.campaigns} element={protect(<CampaignList />)} />
       <Route path={PATHS.campaignNew} element={protect(<CampaignForm />)} />
       <Route path={PATHS.campaignEdit()} element={protect(<CampaignForm />)} />
+      <Route path={PATHS.shareKit} element={protect(<ShareKit />)} />
       <Route path={PATHS.messages} element={protect(<MessageLog />)} />
       <Route path={PATHS.reviews} element={protect(<ReviewList />)} />
       <Route path={PATHS.referrals} element={protect(<ReferralSettingsPage />)} />

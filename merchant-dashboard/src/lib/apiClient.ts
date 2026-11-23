@@ -10,6 +10,7 @@ import type {
   RedemptionDto,
   ReferralSettingsDto,
   ReviewDto,
+  ShareKitDto,
   RewardDto,
   StaffUserDto,
   VisitDto,
@@ -64,6 +65,9 @@ export function getMe() {
 // ---- Merchant ----
 export function getMerchant() {
   return apiFetch<MerchantDto>("/api/merchant");
+}
+export function getShareKit() {
+  return apiFetch<ShareKitDto>("/api/merchant/share-kit");
 }
 export function updateMerchant(input: Partial<Pick<MerchantDto, "businessName" | "contactEmail" | "contactPhone" | "address" | "defaultLanguage" | "boliEarnRate">>) {
   return apiFetch<MerchantDto>("/api/merchant", { method: "PATCH", body: JSON.stringify(input) });

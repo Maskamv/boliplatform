@@ -14,6 +14,7 @@ export const PATHS = {
   campaigns: "/campaigns",
   campaignNew: "/campaigns/new",
   campaignEdit: (id = ":id") => `/campaigns/${id}/edit`,
+  shareKit: "/share-kit",
   messages: "/messages",
   reviews: "/reviews",
   referrals: "/referrals",

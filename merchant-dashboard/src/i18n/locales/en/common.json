@@ -9,11 +9,29 @@
     "rewards": "Rewards",
     "memberships": "Memberships",
     "campaigns": "Campaigns",
+    "shareKit": "Share kit",
     "messages": "Messages",
     "reviews": "Reviews",
     "referrals": "Referrals",
     "staff": "Staff",
     "settings": "Settings"
+  },
+  "shareKit": {
+    "title": "Share kit",
+    "subtitle": "Write a post once, then send it from your own Viber, WhatsApp and social accounts. Each channel has its own tracked link, so you can later see which one brings guests in.",
+    "message": "Post text",
+    "messageHint": "Each channel's tracked link is added to the end automatically.",
+    "defaultMessage": "Join {{businessName}} on Boli and earn rewards on every visit! 🐚",
+    "shareTo": "Share to {{channel}}",
+    "copyPost": "Copy post",
+    "downloadQr": "Download QR",
+    "hints": {
+      "VIBER": "Opens Viber with the post filled in. Pick your groups or channel and press Send.",
+      "WHATSAPP": "Opens WhatsApp with the post filled in. Pick chats, groups or your Status.",
+      "FACEBOOK": "Opens Facebook's share window with your link. Paste the copied post as the caption.",
+      "INSTAGRAM": "Copy the caption and post the QR image. Put the link in your bio or a story link sticker.",
+      "TIKTOK": "Copy the caption for your video. Put the link in your bio or show the QR in the video."
+    }
   },
   "common": {
     "loading": "Loading...",
